@@ -1,0 +1,109 @@
+NAME
+    CPAN::Changes - Parser for CPAN style change logs
+
+SYNOPSIS
+      use CPAN::Changes;
+      my $changes = CPAN::Changes->load('Changes');
+      $changes->release('0.01');
+
+DESCRIPTION
+    It is standard practice to include a Changes file in your distribution.
+    The purpose the Changes file is to help a user figure out what has
+    changed since the last release.
+
+    People have devised many ways to write the Changes file. A preliminary
+    specification has been created (CPAN::Changes::Spec) to encourage module
+    authors to write clear and concise Changes.
+
+    This module will help users programmatically read and write Changes
+    files that conform to the specification.
+
+METHODS
+  new ( %args )
+    Creates a CPAN::Changes object.
+
+   %args
+    preamble
+        The preamble section of the changelog.
+
+    releases
+        An arrayref of CPAN::Changes::Release objects.
+
+  load ( $filename, %args )
+    Creates a new CPAN::Changes object by parsing the given file via
+    CPAN::Changes::Parser.
+
+  load_string ( $filename, %args )
+    Creates a new CPAN::Changes object by parsing the given string via
+    CPAN::Changes::Parser.
+
+  preamble ( [ $preamble ] )
+    Gets or sets the preamble section.
+
+  releases ( [ @releases ] )
+    Gets or sets the list of releases as CPAN::Changes::Release objects.
+
+  add_release ( @releases )
+    Adds the given releases to the change log. If a release of the same
+    version exists, it will be overwritten.
+
+  delete_release ( @versions )
+    Removes the given versions from change log.
+
+  find_release ( $version )
+    Finds a release with the given version.
+
+  reversed
+    Returns a new CPAN::Changes object with the releases in the opposite
+    order.
+
+  clone ( %attrs )
+    Returns a new "CPAN::Changes" object with the given attributes changed.
+
+  serialize ( %options )
+    Returns the change log as a string suitable for saving as a Changes
+    file.
+
+    width
+        The width to wrap lines at. By default, lines will be wrapped at 75
+        characters.
+
+    styles
+        An array reference of styles to use when outputting the entries, one
+        for each level of change. The first entry is used for the release
+        entry itself.
+
+        The styles can be either a single character to prefix change lines
+        or two characters to use as a prefix and suffix.
+
+    indents
+        An array reference of indent strings to use when outputting the
+        entries.
+
+    reverse (legacy)
+        If true, releases will be output in reversed order.
+
+    group_sort (legacy)
+        A code reference used to sort the groups in the releases.
+
+LEGACY METHODS
+  delete_empty_groups
+    Removes empty groups.
+
+  release
+    An alias for find_release.
+
+AUTHOR
+    haarg - Graham Knop (cpan:HAARG) <haarg@haarg.org>
+
+CONTRIBUTORS
+    Brian Cassidy <bricas@cpan.org>
+
+COPYRIGHT
+    Copyright (c) 2011-2015 the CPAN::Changes "AUTHOR" and "CONTRIBUTORS" as
+    listed above.
+
+LICENSE
+    This library is free software and may be distributed under the same
+    terms as perl itself. See <http://dev.perl.org/licenses/>.
+
